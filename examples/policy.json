@@ -1,0 +1,7 @@
+{
+  "name": "admin-only",
+  "effect": "allow",
+  "rules": [
+    {"type": "compare", "path": "user.role", "op": "eq", "value": "admin"}
+  ]
+}
