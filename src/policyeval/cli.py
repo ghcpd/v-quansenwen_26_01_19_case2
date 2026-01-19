@@ -9,6 +9,11 @@ from .loader import load_policy
 
 
 def _cmd_evaluate(argv: list[str]) -> int:
+    """Implement the ``evaluate`` CLI command.
+
+    Prints either "allow"/"deny" or a JSON explanation when ``--explain`` is
+    passed. Returns 0 on allow, 3 on deny.
+    """
     p = argparse.ArgumentParser(prog="policyeval evaluate")
     p.add_argument("--policy", required=True, help="Policy JSON file path or inline JSON")
     p.add_argument("--input", required=True, help="Inline JSON payload")
@@ -30,6 +35,7 @@ def _cmd_evaluate(argv: list[str]) -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
+    """Entry point dispatcher for ``policyeval`` CLI."""
     argv = list(sys.argv[1:] if argv is None else argv)
     if not argv or argv[0] in {"-h", "--help"}:
         print("Usage: policyeval <command> [args]\n\nCommands:\n  evaluate")

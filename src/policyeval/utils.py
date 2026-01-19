@@ -5,6 +5,7 @@ from typing import Any
 
 
 def deep_get(obj: Any, path: str, default: Any = None) -> Any:
+    """Retrieve dotted-path values from mappings/lists; returns default when missing."""
     parts = [p for p in path.split(".") if p]
     cur = obj
     for part in parts:
@@ -27,10 +28,12 @@ def deep_get(obj: Any, path: str, default: Any = None) -> Any:
 
 
 def normalize_key(key: str) -> str:
+    """Normalize a key for case-insensitive lookup and metric tracking."""
     return key.strip().lower().replace("-", "_")
 
 
 def is_truthy(value: Any) -> bool:
+    """Coerce arbitrary values to boolean semantics used by TruthyPathRule."""
     if value is None:
         return False
     if isinstance(value, bool):

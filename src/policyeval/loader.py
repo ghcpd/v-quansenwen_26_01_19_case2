@@ -11,13 +11,39 @@ from .registry import RuleRegistry, get_default_registry
 
 @dataclass(frozen=True)
 class PolicySpec:
+    """Raw policy specification loaded from JSON.
+
+    Attributes:
+      name: Policy name (non-empty string).
+      effect: "allow" or "deny".
+      rules: List of rule specification dicts prior to compilation.
+    """
+
     name: str
     effect: str
     rules: list[dict[str, Any]]
 
 
 def load_policy(source: Any, registry: RuleRegistry | None = None, *, base_dir: str | None = None) -> PolicySpec:
-    """Load a policy from a dict, JSON string, or JSON file path."""
+    """Load a policy from a dict, JSON string, or JSON file path.
+
+    Args:
+      source: Dict object, inline JSON text, or path/Path to a JSON file. Strings
+        that start with ``{`` are treated as inline JSON; other strings are
+        interpreted as file paths.
+      registry: Optional RuleRegistry used to validate rule specs; defaults to
+        the process-wide default registry.
+      base_dir: Optional base directory for resolving relative file paths.
+
+    Returns:
+      PolicySpec containing the validated policy fields. Rule specs are created
+      once via the registry to validate syntax and type names.
+
+    Raises:
+      PolicyLoadError: On I/O errors, JSON parse failures, unsupported source
+        types, invalid policy fields, or rule validation errors. Underlying
+        RuleSyntaxError is wrapped in PolicyLoadError.
+    """
 
     registry = registry or get_default_registry()
     try:

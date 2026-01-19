@@ -1,0 +1,551 @@
+User: Role:
+You are a contributor asked to improve API documentation
+for an existing open-source project.
+
+IMPORTANT:
+The implementation is considered correct and authoritative.
+Your task is to improve DOCUMENTATION ONLY.
+
+--------------------------------------------------------------------------------
+YOUR TASK
+--------------------------------------------------------------------------------
+
+1. Review all public-facing APIs:
+- Functions
+- Classes
+- Methods
+- Public configuration interfaces
+
+2. Identify documentation gaps:
+- Missing docstrings or API entries
+- Undocumented parameters or return values
+- Missing constraints, error cases, or side effects
+- Incomplete or misleading descriptions
+
+3. Complete documentation so that:
+- Every public API is documented
+- Parameters, return values, and exceptions are clearly described
+- Behavior matches actual implementation exactly
+- No speculative intent is introduced
+
+--------------------------------------------------------------------------------
+STRICT RULES
+--------------------------------------------------------------------------------
+
+- DO NOT change code behavior
+- DO NOT modify logic or signatures
+- DO NOT invent undocumented guarantees
+- If behavior is unclear, document it as “implementation-defined”
+- Do NOT remove existing APIs to simplify docs
+
+--------------------------------------------------------------------------------
+OUTPUT REQUIREMENTS
+--------------------------------------------------------------------------------
+
+You MUST provide:
+
+1. A list of all API documentation gaps you identified
+   - File
+   - Function / class / method
+   - Missing or unclear aspects
+
+2. Updated versions of:
+   - API documentation files
+   - Docstrings or reference docs you modified
+
+3. A short explanation describing:
+   - How you verified documentation against implementation
+   - Any ambiguities you intentionally left explicit
+
+--------------------------------------------------------------------------------
+EVALUATION CRITERIA (IMPLICIT)
+--------------------------------------------------------------------------------
+
+You will be evaluated on:
+- Coverage of missing API documentation
+- Accuracy and completeness of descriptions
+- Fidelity to implementation
+- Avoidance of speculative behavior
+- Professional API clarity
+
+IMPORTANT:
+Treat this as a disciplined documentation contribution,
+not a redesign or refactor.
+
+
+GitHub Copilot: Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/cli.py)
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/context.py)
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/engine.py)
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/errors.py)
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/loader.py)
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/registry.py)
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/rules.py)
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/utils.py)
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/__init__.py)
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/API.md)
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/README.md)
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/tests/test_engine.py)
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/tests/test_loader.py)
+
+Created 3 todos
+
+Using "Apply Patch"
+
+
+```
+
+```
+
+
+Using "Apply Patch"
+
+
+```
+
+```
+
+
+Using "Apply Patch"
+
+
+```
+
+```
+
+
+Using "Apply Patch"
+
+
+```
+
+```
+
+
+Using "Apply Patch"
+
+
+```
+
+```
+
+
+Using "Apply Patch"
+
+
+```
+
+```
+
+
+Using "Apply Patch"
+
+
+```
+
+```
+
+
+Using "Apply Patch"
+
+
+```
+
+```
+
+
+Completed: *Refresh engine/rule docstrings* (1/3)
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/engine.py)
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/loader.py)
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/registry.py)
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/rules.py)
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/context.py)
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/utils.py)
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/cli.py)
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/API.md)
+
+Using "Apply Patch"
+
+
+```
+
+```
+
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/engine.py)
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/loader.py)
+
+Using "Apply Patch"
+
+
+```
+
+```
+
+
+Using "Apply Patch"
+
+
+```
+
+```
+
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/loader.py)
+
+Using "Apply Patch"
+
+
+```
+
+```
+
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/loader.py)
+
+Using "Apply Patch"
+
+
+```
+
+```
+
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/loader.py)
+
+Using "Apply Patch"
+
+
+```
+
+```
+
+
+Using "Apply Patch"
+
+
+```
+
+```
+
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/loader.py)
+
+Using "Apply Patch"
+
+
+```
+
+```
+
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/loader.py)
+
+Using "Apply Patch"
+
+
+```
+
+```
+
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/loader.py)
+
+Using "Apply Patch"
+
+
+```
+
+```
+
+
+Using "Apply Patch"
+
+
+```
+
+```
+
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/loader.py)
+
+Using "Apply Patch"
+
+
+```
+
+```
+
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/loader.py)
+
+Using "Apply Patch"
+
+
+```
+
+```
+
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/loader.py)
+
+Using "Apply Patch"
+
+
+```
+
+```
+
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/loader.py)
+
+Using "Apply Patch"
+
+
+```
+
+```
+
+
+Using "Apply Patch"
+
+
+```
+
+```
+
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/loader.py)
+
+Using "Apply Patch"
+
+
+```
+
+```
+
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/loader.py)
+
+Using "Apply Patch"
+
+
+```
+
+```
+
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/loader.py)
+
+Using "Apply Patch"
+
+
+```
+
+```
+
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/loader.py)
+
+Using "Apply Patch"
+
+
+```
+
+```
+
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/loader.py)
+
+Continue to iterate?
+[object Object]
+
+Made changes.
+
+User: @agent Continue: "Continue to iterate?"
+
+GitHub Copilot: Using "Apply Patch"
+
+
+```
+
+```
+
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/loader.py)
+
+Ran `pylanceRunCodeSnippet` 
+Completed with input: {
+  "workspaceRoot": "c:/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max",
+  "codeSnippet": "from pathlib import Path\ntext = Path('src/policyeval/loader.py').read_text()\nlines = text.splitlines()\nfor i, line in enumerate(lines, 1):\n    if 'Load a policy from a dict' in line:\n        print(i, repr(line))\n"
+}
+
+Using "Apply Patch"
+
+
+```
+
+```
+
+
+Ran `pylanceRunCodeSnippet` 
+Completed with input: {
+  "workspaceRoot": "c:/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max",
+  "codeSnippet": "from pathlib import Path\ntext = Path('src/policyeval/loader.py').read_text().splitlines()\nfor i in range(25, 70):\n    print(f\"{i:02d}: {repr(text[i-1])}\")\n"
+}
+
+Using "Apply Patch"
+
+
+```
+
+```
+
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max/src/policyeval/loader.py#25-25), lines 25 to 70
+
+Ran `pylanceRunCodeSnippet` 
+Completed with input: {
+  "workspaceRoot": "c:/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max",
+  "codeSnippet": "from pathlib import Path\ntext = Path('src/policyeval/loader.py').read_text().splitlines()\nfor i in range(30, 47):\n    print(f\"{i}: {repr(text[i-1])}\")\n"
+}
+
+Using "Apply Patch"
+
+
+```
+
+```
+
+
+Ran `pylanceRunCodeSnippet` 
+Completed with input: {
+  "workspaceRoot": "c:/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max",
+  "codeSnippet": "from pathlib import Path\ntext = Path('src/policyeval/loader.py').read_text().splitlines()\nfor i in range(28, 46):\n    print(f\"{i}: {repr(text[i-1])}\")\n"
+}
+
+Using "Apply Patch"
+
+
+```
+
+```
+
+
+Ran `pylanceRunCodeSnippet` 
+Completed with input: {
+  "workspaceRoot": "c:/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max",
+  "codeSnippet": "from pathlib import Path\ntext = Path('src/policyeval/loader.py').read_text().splitlines()\nfor i in range(25, 46):\n    print(f\"{i}: {repr(text[i-1])}\")\n"
+}
+
+Ran `pylanceRunCodeSnippet` 
+Completed with input: {
+  "workspaceRoot": "c:/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max",
+  "codeSnippet": "from pathlib import Path\ntext = Path('src/policyeval/rules.py').read_text().splitlines()\nfor i in range(1, 80, 10):\n    pass\nprint('Docstring indent ok')\n"
+}
+
+Ran `pylanceRunCodeSnippet` 
+Completed with input: {
+  "workspaceRoot": "c:/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max",
+  "codeSnippet": "from pathlib import Path\nlines = Path('src/policyeval/engine.py').read_text().splitlines()\nkeys = ['class Policy:', 'class Decision:', 'def compile', 'def evaluate', 'def explain']\nfor i, line in enumerate(lines, 1):\n    for k in keys:\n        if k in line:\n            print(k, i)\n"
+}
+
+Ran `pylanceRunCodeSnippet` 
+Completed with input: {
+  "workspaceRoot": "c:/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max",
+  "codeSnippet": "from pathlib import Path\nlines = Path('src/policyeval/loader.py').read_text().splitlines()\nfor i, line in enumerate(lines, 1):\n    if line.startswith('class PolicySpec'):\n        print('PolicySpec', i)\n    if line.startswith('def load_policy'):\n        print('load_policy', i)\n"
+}
+
+Ran `pylanceRunCodeSnippet` 
+Completed with input: {
+  "workspaceRoot": "c:/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max",
+  "codeSnippet": "from pathlib import Path\nlines = Path('src/policyeval/registry.py').read_text().splitlines()\nkeys = ['class RuleRegistry', 'def register', 'def unregister', 'def create', 'def get_default_registry', 'def register_builtin_rules']\nfor i, line in enumerate(lines, 1):\n    for k in keys:\n        if line.strip().startswith(k):\n            print(k, i)\n"
+}
+
+Ran `pylanceRunCodeSnippet` 
+Completed with input: {
+  "workspaceRoot": "c:/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max",
+  "codeSnippet": "from pathlib import Path\nlines = Path('src/policyeval/rules.py').read_text().splitlines()\nkeys = ['class Rule', 'class CompareRule', 'class NotRule', 'class AllRule', 'class AnyRule', 'class TruthyPathRule', 'def parse_compare_rule']\nfor i, line in enumerate(lines, 1):\n    for k in keys:\n        if line.strip().startswith(k):\n            print(k, i)\n"
+}
+
+Ran `pylanceRunCodeSnippet` 
+Completed with input: {
+  "workspaceRoot": "c:/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max",
+  "codeSnippet": "from pathlib import Path\nlines = Path('src/policyeval/context.py').read_text().splitlines()\nfor i, line in enumerate(lines, 1):\n    if line.strip().startswith('class EvaluationContext'):\n        print('EvaluationContext', i)\n    if line.strip().startswith('def get_var'):\n        print('get_var', i)\n    if line.strip().startswith('def set_var'):\n        print('set_var', i)\n    if line.strip().startswith('def bump'):\n        print('bump', i)\n"
+}
+
+Ran `pylanceRunCodeSnippet` 
+Completed with input: {
+  "workspaceRoot": "c:/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max",
+  "codeSnippet": "from pathlib import Path\nlines = Path('src/policyeval/utils.py').read_text().splitlines()\nfor i, line in enumerate(lines, 1):\n    if line.strip().startswith('def deep_get'):\n        print('deep_get', i)\n    if line.strip().startswith('def normalize_key'):\n        print('normalize_key', i)\n    if line.strip().startswith('def is_truthy'):\n        print('is_truthy', i)\n"
+}
+
+Ran `pylanceRunCodeSnippet` 
+Completed with input: {
+  "workspaceRoot": "c:/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max",
+  "codeSnippet": "from pathlib import Path\nlines = Path('src/policyeval/cli.py').read_text().splitlines()\nfor i, line in enumerate(lines, 1):\n    if line.strip().startswith('def _cmd_evaluate'):\n        print('_cmd_evaluate', i)\n    if line.strip().startswith('def main'):\n        print('main', i)\n"
+}
+
+Ran `pylanceRunCodeSnippet` 
+Completed with input: {
+  "workspaceRoot": "c:/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max",
+  "codeSnippet": "from pathlib import Path\nlines = Path('API.md').read_text().splitlines()\nfor i, line in enumerate(lines, 1):\n    if line.startswith('## Top-level exports'):\n        print('Top-level', i)\n    if line.startswith('## Data structures'):\n        print('Data structures', i)\n    if line.startswith('## Loading policies'):\n        print('Loading', i)\n    if line.startswith('## PolicyEngine'):\n        print('PolicyEngine', i)\n    if line.startswith('## Built-in rules'):\n        print('Built-in rules', i)\n    if line.startswith('## Registry utilities'):\n        print('Registry utilities', i)\n    if line.startswith('## CLI'):\n        print('CLI', i)\n"
+}
+
+Ran `pylanceRunCodeSnippet` 
+Completed with input: {
+  "workspaceRoot": "c:/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max",
+  "codeSnippet": "from pathlib import Path\nlines = Path('src/policyeval/engine.py').read_text().splitlines()\nfor i in range(10, 80):\n    print(f\"{i}: {lines[i-1]}\")\n"
+}
+
+Ran `pylanceRunCodeSnippet` 
+Completed with input: {
+  "workspaceRoot": "c:/Users/v-quansenwen/work/Document/API-0119/gpt-5.1-codex-max",
+  "codeSnippet": "from pathlib import Path\nlines = Path('src/policyeval/engine.py').read_text().splitlines()\nfor i in range(76, 150):\n    print(f\"{i}: {lines[i-1]}\")\n"
+}
+
+**Doc Gaps Found**
+- engine.py – `Policy`, `Decision`, and `PolicyEngine.compile/evaluate/explain` previously lacked field descriptions, strict-mode semantics, explanation shape, and error cases.
+- loader.py – `PolicySpec` and `load_policy` were missing source type constraints, base_dir handling, validation notes, and wrapped exceptions.
+- registry.py – `RuleRegistry` operations and default registry helpers were undocumented regarding replacement, removal, and raised errors.
+- rules.py – Logical rule classes, compare rule strict behavior, and `parse_compare_rule` error conditions lacked docs.
+- context.py – Context helper methods had no documentation on key normalization or metric bumping.
+- utils.py – Utility helpers were undocumented.
+- cli.py – CLI command behavior, outputs, and exit codes were not described.
+- API.md – API reference was outdated (strict modes treated as bool, return type described as bool, missing built-in rule list/operators, explanation structure, and CLI exit codes).
+
+**Updates Made**
+- Added comprehensive docstrings for policy dataclasses and engine methods, covering strict modes, explanation contents, and propagated exceptions in engine.py.
+- Documented `PolicySpec` fields and fully detailed `load_policy` parameters, validation rules, and error wrapping in loader.py.
+- Clarified registry usage, replacement/removal behavior, and error surfaces in registry.py.
+- Described rule evaluation/explanation behavior, strict missing-value handling, logical combinators, and parse-time errors in rules.py.
+- Added concise method docs to the evaluation context and utility helpers in context.py and utils.py.
+- Documented CLI command behavior, output format, and exit codes in cli.py.
+- Rewrote the API reference to reflect actual return types, strict mode values, Decision/explanation structure, built-in rules (including `contains`/`exists`/`truthy`), registry utilities, and CLI flags/exit codes in API.md.
+
+**Verification Notes**
+- Cross-checked docstrings against implementation control flow (e.g., strict handling in `CompareRule` and `TruthyPathRule`, effect inversion in `PolicyEngine.evaluate`, early validation in `load_policy`).
+- Confirmed default registry wiring and built-in rule factories directly from `register_builtin_rules`.
+- No speculative guarantees were added; behaviors are documented as implemented, including error propagation and explanation payload shape.
+
+Made changes.
