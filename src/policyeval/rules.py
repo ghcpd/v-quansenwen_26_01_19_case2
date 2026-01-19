@@ -9,25 +9,69 @@ from .utils import deep_get, is_truthy
 
 
 class Rule:
-    """Base rule.
+    """Base class for all rule types.
 
-    Rules are small predicates that are compiled from a dict spec.
+    Rules are small predicates that are compiled from a dict specification
+    and evaluated against an ``EvaluationContext``. All rule types should
+    inherit from this class and implement the ``evaluate()`` method.
 
-    Subclasses should implement `evaluate`.
+    Attributes:
+        type_name: String identifier for the rule type (e.g., ``"compare"``).
+
+    Subclasses should implement:
+        - ``evaluate(ctx)``: Returns ``True`` if the rule matches.
+        - ``explain(ctx)`` (optional): Returns a dict with evaluation details.
     """
 
     type_name: str = "rule"
 
     def evaluate(self, ctx: EvaluationContext) -> bool:
+        """Evaluate this rule against the given context.
+
+        Args:
+            ctx: The evaluation context containing input data and state.
+
+        Returns:
+            ``True`` if the rule matches (passes), ``False`` otherwise.
+
+        Raises:
+            NotImplementedError: If not overridden by a subclass.
+        """
         raise NotImplementedError
 
     def explain(self, ctx: EvaluationContext) -> dict[str, Any]:
+        """Return a detailed explanation of this rule's evaluation.
+
+        Args:
+            ctx: The evaluation context containing input data and state.
+
+        Returns:
+            A dict containing at least ``"type"`` and ``"result"`` keys.
+            Subclasses may include additional fields.
+        """
         return {"type": self.type_name, "result": self.evaluate(ctx)}
 
 
 @dataclass(frozen=True)
 class CompareRule(Rule):
-    """Compares a value at `path` to `value` using `op`."""
+    """Compares a value at a path to a target value using an operator.
+
+    This is the most commonly used rule type. It retrieves a value from
+    the input using a dot-separated path and compares it to a target value.
+
+    Attributes:
+        type_name: Always ``"compare"``.
+        path: Dot-separated path to the value in input (e.g., ``"user.role"``).
+        op: Comparison operator. One of: ``"eq"``, ``"ne"``, ``"gt"``,
+            ``"gte"``, ``"lt"``, ``"lte"``, ``"in"``, ``"contains"``,
+            ``"exists"``.
+        value: Target value for comparison. Not required for ``"exists"``.
+
+    Behavior on missing values:
+        - ``"exists"`` operator returns ``False``
+        - Other operators return ``False`` and may raise or log depending
+          on strict mode
+    """
 
     type_name: str
     path: str
@@ -90,6 +134,13 @@ class CompareRule(Rule):
 
 @dataclass(frozen=True)
 class NotRule(Rule):
+    """Logical NOT: inverts the result of a sub-rule.
+
+    Attributes:
+        type_name: Always ``"not"``.
+        rule: The sub-rule to negate.
+    """
+
     type_name: str
     rule: Rule
 
@@ -99,6 +150,16 @@ class NotRule(Rule):
 
 @dataclass(frozen=True)
 class AllRule(Rule):
+    """Logical AND: matches only if all sub-rules match.
+
+    Evaluates rules in order and short-circuits on the first ``False``.
+    Returns ``True`` if the rules list is empty.
+
+    Attributes:
+        type_name: Always ``"all"``.
+        rules: List of sub-rules to evaluate.
+    """
+
     type_name: str
     rules: list[Rule]
 
@@ -111,6 +172,16 @@ class AllRule(Rule):
 
 @dataclass(frozen=True)
 class AnyRule(Rule):
+    """Logical OR: matches if any sub-rule matches.
+
+    Evaluates rules in order and short-circuits on the first ``True``.
+    Returns ``False`` if the rules list is empty.
+
+    Attributes:
+        type_name: Always ``"any"``.
+        rules: List of sub-rules to evaluate.
+    """
+
     type_name: str
     rules: list[Rule]
 
@@ -123,7 +194,20 @@ class AnyRule(Rule):
 
 @dataclass(frozen=True)
 class TruthyPathRule(Rule):
-    """Treats a value at path as a boolean."""
+    """Checks if a value at a path is "truthy".
+
+    Truthiness is determined by ``is_truthy()``:
+        - ``None``: Always ``False``
+        - ``bool``: The value itself
+        - ``int``/``float``: ``True`` if not ``0``
+        - ``str``: ``True`` if not empty, ``"0"``, ``"false"``, ``"no"``,
+          or ``"off"`` (case-insensitive)
+        - Other: Always ``True``
+
+    Attributes:
+        type_name: Always ``"truthy"``.
+        path: Dot-separated path to the value.
+    """
 
     type_name: str
     path: str
@@ -140,7 +224,21 @@ class TruthyPathRule(Rule):
 
 
 def parse_compare_rule(spec: dict[str, Any]) -> CompareRule:
-    """Parse a compare rule spec."""
+    """Parse a compare rule specification into a CompareRule instance.
+
+    Args:
+        spec: A rule specification dict with the following fields:
+            - ``type``: Must be ``"compare"`` (not validated here)
+            - ``path``: Non-empty string, dot-separated path to value
+            - ``op``: Non-empty string, comparison operator
+            - ``value``: Optional target value for comparison
+
+    Returns:
+        A ``CompareRule`` instance ready for evaluation.
+
+    Raises:
+        RuleSyntaxError: If ``path`` or ``op`` is missing or empty.
+    """
 
     path = spec.get("path")
     op = spec.get("op")
