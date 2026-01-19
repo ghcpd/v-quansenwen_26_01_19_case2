@@ -16,12 +16,20 @@ class RuleRegistry:
         self._factories: dict[str, RuleFactory] = {}
 
     def register(self, type_name: str, factory: RuleFactory) -> None:
+        """Register a rule factory for a type name, replacing any existing entry."""
         self._factories[type_name] = factory
 
     def unregister(self, type_name: str) -> None:
+        """Remove a registered rule factory if present."""
         self._factories.pop(type_name, None)
 
     def create(self, spec: dict[str, Any]) -> Rule:
+        """Create a Rule instance from a rule spec.
+
+        Raises:
+          RuleSyntaxError: If the spec is not a dict or lacks a non-empty type.
+          UnknownRuleError: If no factory is registered for the given type.
+        """
         if not isinstance(spec, dict):
             raise RuleSyntaxError("rule spec must be a dict")
         type_name = spec.get("type")
@@ -36,6 +44,7 @@ _default_registry: RuleRegistry | None = None
 
 
 def get_default_registry() -> RuleRegistry:
+    """Return the process-wide default registry with built-in rule factories."""
     global _default_registry
     if _default_registry is None:
         _default_registry = RuleRegistry()
@@ -44,6 +53,7 @@ def get_default_registry() -> RuleRegistry:
 
 
 def register_builtin_rules(registry: RuleRegistry) -> None:
+    """Register built-in rule factories on the provided registry."""
     registry.register("compare", lambda spec, r: parse_compare_rule(spec))
 
     def _all(spec: dict[str, Any], r: RuleRegistry) -> Rule:

@@ -19,9 +19,11 @@ class Rule:
     type_name: str = "rule"
 
     def evaluate(self, ctx: EvaluationContext) -> bool:
+        """Evaluate the rule against the given context."""
         raise NotImplementedError
 
     def explain(self, ctx: EvaluationContext) -> dict[str, Any]:
+        """Return a structured explanation; by default reuses ``evaluate``."""
         return {"type": self.type_name, "result": self.evaluate(ctx)}
 
 
@@ -35,6 +37,12 @@ class CompareRule(Rule):
     value: Any = None
 
     def evaluate(self, ctx: EvaluationContext) -> bool:
+        """Evaluate comparison and handle strict missing-value behavior.
+
+        Raises:
+          RuleEvaluationError: If strict mode is "raise" and a path is missing,
+            or when an underlying comparison operation fails.
+        """
         ctx.bump("rule_eval")
         cache_key = f"path:{self.path}"
         if cache_key in ctx.cache:
@@ -77,6 +85,7 @@ class CompareRule(Rule):
         raise RuleEvaluationError(f"Unknown compare op '{self.op}'")
 
     def explain(self, ctx: EvaluationContext) -> dict[str, Any]:
+        """Return comparison inputs, actual value, and result."""
         actual = deep_get(ctx.input, self.path, default=None)
         return {
             "type": "compare",
@@ -90,6 +99,8 @@ class CompareRule(Rule):
 
 @dataclass(frozen=True)
 class NotRule(Rule):
+    """Logical negation of a single rule."""
+
     type_name: str
     rule: Rule
 
@@ -99,6 +110,8 @@ class NotRule(Rule):
 
 @dataclass(frozen=True)
 class AllRule(Rule):
+    """Logical AND over a list of rules (fails fast)."""
+
     type_name: str
     rules: list[Rule]
 
@@ -111,6 +124,8 @@ class AllRule(Rule):
 
 @dataclass(frozen=True)
 class AnyRule(Rule):
+    """Logical OR over a list of rules (succeeds fast)."""
+
     type_name: str
     rules: list[Rule]
 
@@ -140,7 +155,11 @@ class TruthyPathRule(Rule):
 
 
 def parse_compare_rule(spec: dict[str, Any]) -> CompareRule:
-    """Parse a compare rule spec."""
+        """Parse a compare rule spec.
+
+        Raises:
+            RuleSyntaxError: If required fields are missing or empty.
+        """
 
     path = spec.get("path")
     op = spec.get("op")
