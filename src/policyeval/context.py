@@ -9,13 +9,18 @@ from .utils import normalize_key
 
 @dataclass
 class EvaluationContext:
-    """Context passed to rules.
+    """Context passed to rules during evaluation.
 
-    The context stores the input payload plus evaluation-scoped variables.
+    The context stores the input payload plus evaluation-scoped variables,
+    cache, metrics, and configuration.
 
-    Notes:
-      - `vars` is for intermediate values and can be mutated by rules.
-      - `cache` is used to memoize expensive path lookups.
+    Attributes:
+        input: The input payload being evaluated (typically a dict)
+        vars: Mutable variables for intermediate values (can be used by custom rules)
+        cache: Memoization cache for expensive operations (e.g., path lookups)
+        metrics: Evaluation metrics (e.g., 'rule_eval', 'missing')
+        now: Current time for time-based evaluations
+        strict: Strict mode for missing data: "off", "warn", or "raise"
     """
 
     input: Any
@@ -26,11 +31,32 @@ class EvaluationContext:
     strict: str = "warn"  # "off" | "warn" | "raise"
 
     def get_var(self, key: str, default: Any = None) -> Any:
+        """Retrieve a variable by key.
+
+        Args:
+            key: Variable key (normalized: lowercased, hyphens to underscores)
+            default: Default value if key not found
+
+        Returns:
+            Variable value or default
+        """
         return self.vars.get(normalize_key(key), default)
 
     def set_var(self, key: str, value: Any) -> None:
+        """Set a variable.
+
+        Args:
+            key: Variable key (will be normalized)
+            value: Value to store
+        """
         self.vars[normalize_key(key)] = value
 
     def bump(self, metric: str, amount: int = 1) -> None:
+        """Increment a metric counter.
+
+        Args:
+            metric: Metric name (will be normalized)
+            amount: Amount to increment (default: 1)
+        """
         metric = normalize_key(metric)
         self.metrics[metric] = self.metrics.get(metric, 0) + amount

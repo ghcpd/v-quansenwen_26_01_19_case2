@@ -11,13 +11,51 @@ from .registry import RuleRegistry, get_default_registry
 
 @dataclass(frozen=True)
 class PolicySpec:
+    """A loaded policy specification before compilation.
+
+    Attributes:
+        name: Policy identifier
+        effect: Either "allow" or "deny"
+        rules: List of rule specifications (dicts)
+    """
     name: str
     effect: str
     rules: list[dict[str, Any]]
 
 
 def load_policy(source: Any, registry: RuleRegistry | None = None, *, base_dir: str | None = None) -> PolicySpec:
-    """Load a policy from a dict, JSON string, or JSON file path."""
+    """Load a policy from a dict, JSON string, or JSON file path.
+
+    Args:
+        source: Policy source, one of:
+            - dict: Policy dictionary
+            - str: JSON string (if starts with '{') or file path
+            - Path: File path to JSON policy file
+        registry: Registry for validating rules. If None, uses default registry.
+        base_dir: Base directory for resolving relative file paths. If None,
+            paths must be absolute.
+
+    Returns:
+        Validated PolicySpec ready for compilation
+
+    Raises:
+        PolicyLoadError: If:
+            - Source type is unsupported
+            - JSON is invalid
+            - File cannot be read
+            - Policy is missing required 'name' field
+            - Policy 'name' is not a non-empty string
+            - Policy 'effect' is not 'allow' or 'deny'
+            - Policy 'rules' is not a list
+            - Any rule spec is invalid (propagated from RuleSyntaxError)
+
+    Validation:
+        - Policy must have non-empty 'name' (string)
+        - 'effect' defaults to 'allow' if not specified
+        - 'rules' defaults to empty list if not specified
+        - All rule specs are validated by attempting to compile them
+        - Relative file paths are resolved against base_dir if provided
+    """
 
     registry = registry or get_default_registry()
     try:
