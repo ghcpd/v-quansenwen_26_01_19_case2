@@ -11,13 +11,60 @@ from .registry import RuleRegistry, get_default_registry
 
 @dataclass(frozen=True)
 class PolicySpec:
+    """A validated policy specification.
+
+    This is a frozen (immutable) dataclass representing a policy that has
+    been loaded and validated but not yet compiled into executable rules.
+
+    Attributes:
+        name: Unique policy name. Must be a non-empty string.
+        effect: Either ``"allow"`` or ``"deny"``. Determines the decision
+            when all rules match: ``"allow"`` means grant access if matched,
+            ``"deny"`` means deny access if matched.
+        rules: List of rule specification dictionaries. Each dict must have
+            at least a ``"type"`` field identifying the rule type.
+    """
+
     name: str
     effect: str
     rules: list[dict[str, Any]]
 
 
 def load_policy(source: Any, registry: RuleRegistry | None = None, *, base_dir: str | None = None) -> PolicySpec:
-    """Load a policy from a dict, JSON string, or JSON file path."""
+    """Load and validate a policy from a dict, JSON string, or file path.
+
+    This function accepts multiple source formats and performs validation
+    including checking that all referenced rule types are registered.
+
+    Args:
+        source: Policy source. Can be:
+            - A ``dict`` with policy data (keys: ``name``, ``effect``, ``rules``)
+            - A JSON string (detected by leading ``{`` after stripping whitespace)
+            - A file path (``str`` or ``Path``) to a JSON file
+        registry: Optional rule registry for validating rule types. If
+            ``None``, uses the default registry from ``get_default_registry()``.
+        base_dir: Base directory for resolving relative file paths. Only
+            used when ``source`` is a relative path string.
+
+    Returns:
+        A validated ``PolicySpec`` containing the policy name, effect, and
+        list of rule specification dicts.
+
+    Raises:
+        PolicyLoadError: If the source cannot be loaded, parsed, or fails
+            validation. Wraps underlying ``json.JSONDecodeError``,
+            ``OSError``, or ``RuleSyntaxError`` exceptions.
+
+    Examples:
+        >>> load_policy({"name": "test", "effect": "allow", "rules": []})
+        PolicySpec(name='test', effect='allow', rules=[])
+
+        >>> load_policy('{"name": "test", "effect": "deny", "rules": []}')
+        PolicySpec(name='test', effect='deny', rules=[])
+
+        >>> load_policy("policies/admin.json", base_dir="/app/config")
+        PolicySpec(...)
+    """
 
     registry = registry or get_default_registry()
     try:
