@@ -10,18 +10,64 @@ RuleFactory = Callable[[dict[str, Any], "RuleRegistry"], Rule]
 
 
 class RuleRegistry:
-    """Registry mapping rule type names to factories."""
+    """Registry mapping rule type names to factory functions.
+
+    The RuleRegistry maintains a mapping from rule type names (strings like
+    'compare', 'all', 'not') to factory functions that create Rule instances.
+
+    Factory functions must have the signature:
+        (spec: dict[str, Any], registry: RuleRegistry) -> Rule
+
+    The registry is passed to factories to allow nested rule creation
+    (e.g., for 'all' and 'any' rules that contain sub-rules).
+
+    Example:
+        >>> registry = RuleRegistry()
+        >>> registry.register("my_rule", lambda spec, r: MyRule(spec["path"]))
+        >>> rule = registry.create({"type": "my_rule", "path": "user.name"})
+    """
 
     def __init__(self) -> None:
+        """Create an empty rule registry."""
         self._factories: dict[str, RuleFactory] = {}
 
     def register(self, type_name: str, factory: RuleFactory) -> None:
+        """Register a rule factory for a given type name.
+
+        Args:
+            type_name: The rule type identifier (e.g., 'compare', 'custom').
+                This is the value matched against the 'type' field in rule specs.
+            factory: A callable that takes (spec, registry) and returns a Rule.
+                The spec is the rule's JSON dict, and registry is this registry
+                (to allow creating nested rules).
+        """
         self._factories[type_name] = factory
 
     def unregister(self, type_name: str) -> None:
+        """Remove a rule factory from the registry.
+
+        Args:
+            type_name: The rule type to remove.
+
+        Note:
+            Does nothing if the type is not registered (no error raised).
+        """
         self._factories.pop(type_name, None)
 
     def create(self, spec: dict[str, Any]) -> Rule:
+        """Create a rule instance from a specification dictionary.
+
+        Args:
+            spec: A rule specification dict with at least a 'type' key.
+                Additional keys depend on the rule type.
+
+        Returns:
+            Rule: The instantiated rule object.
+
+        Raises:
+            RuleSyntaxError: If spec is not a dict or lacks a valid 'type' key.
+            UnknownRuleError: If the rule type is not registered.
+        """
         if not isinstance(spec, dict):
             raise RuleSyntaxError("rule spec must be a dict")
         type_name = spec.get("type")
@@ -36,6 +82,18 @@ _default_registry: RuleRegistry | None = None
 
 
 def get_default_registry() -> RuleRegistry:
+    """Return the global default RuleRegistry with built-in rules.
+
+    The default registry is created lazily on first call and includes
+    all built-in rule types: 'compare', 'all', 'any', 'not', 'truthy'.
+
+    Returns:
+        RuleRegistry: The singleton default registry.
+
+    Note:
+        The registry is a module-level singleton. Modifications affect
+        all code using the default registry.
+    """
     global _default_registry
     if _default_registry is None:
         _default_registry = RuleRegistry()
@@ -44,6 +102,18 @@ def get_default_registry() -> RuleRegistry:
 
 
 def register_builtin_rules(registry: RuleRegistry) -> None:
+    """Register all built-in rule types with a registry.
+
+    This function registers the following rule types:
+        - 'compare': Compares values using operators (eq, ne, gt, etc.)
+        - 'all': Logical AND of nested rules
+        - 'any': Logical OR of nested rules
+        - 'not': Logical NOT of a single nested rule
+        - 'truthy': Checks if a value at a path is truthy
+
+    Args:
+        registry: The RuleRegistry to populate with built-in rules.
+    """
     registry.register("compare", lambda spec, r: parse_compare_rule(spec))
 
     def _all(spec: dict[str, Any], r: RuleRegistry) -> Rule:
