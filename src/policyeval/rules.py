@@ -9,25 +9,59 @@ from .utils import deep_get, is_truthy
 
 
 class Rule:
-    """Base rule.
+    """Base rule class.
 
-    Rules are small predicates that are compiled from a dict spec.
-
-    Subclasses should implement `evaluate`.
+    Rules are small predicates compiled from dict specifications.
+    Subclasses must implement evaluate() and may override explain().
     """
 
     type_name: str = "rule"
 
     def evaluate(self, ctx: EvaluationContext) -> bool:
+        """Evaluate the rule against the evaluation context.
+
+        Args:
+            ctx: Evaluation context containing input data and state
+
+        Returns:
+            True if the rule passes, False otherwise
+
+        Raises:
+            RuleEvaluationError: If evaluation fails
+        """
         raise NotImplementedError
 
     def explain(self, ctx: EvaluationContext) -> dict[str, Any]:
+        """Generate explanation of rule evaluation.
+
+        Args:
+            ctx: Evaluation context
+
+        Returns:
+            Dict with at minimum 'type' and 'result' keys
+        """
         return {"type": self.type_name, "result": self.evaluate(ctx)}
 
 
 @dataclass(frozen=True)
 class CompareRule(Rule):
-    """Compares a value at `path` to `value` using `op`."""
+    """Compares a value at path to an expected value using an operator.
+
+    Supported operators: eq, ne, gt, gte, lt, lte, in, contains, exists
+
+    Missing data behavior:
+        - If path resolves to None and op is 'exists': returns False
+        - If path is None and op is not 'exists':
+            - strict="raise": raises RuleEvaluationError
+            - strict="warn": returns False, increments 'missing' metric
+            - strict="off": returns False silently
+
+    Attributes:
+        type_name: Always "compare"
+        path: Dot-separated path to value in input data
+        op: Comparison operator
+        value: Expected value (not used by 'exists' operator)
+    """
 
     type_name: str
     path: str
@@ -90,6 +124,14 @@ class CompareRule(Rule):
 
 @dataclass(frozen=True)
 class NotRule(Rule):
+    """Logical negation rule.
+
+    Returns the inverse of the nested rule's result.
+
+    Attributes:
+        type_name: Always "not"
+        rule: The rule to negate
+    """
     type_name: str
     rule: Rule
 
@@ -99,6 +141,16 @@ class NotRule(Rule):
 
 @dataclass(frozen=True)
 class AllRule(Rule):
+    """Logical AND rule.
+
+    Returns True only if all nested rules return True.
+    Short-circuits on first False result.
+    Returns True for empty rules list.
+
+    Attributes:
+        type_name: Always "all"
+        rules: List of rules to evaluate
+    """
     type_name: str
     rules: list[Rule]
 
@@ -111,6 +163,16 @@ class AllRule(Rule):
 
 @dataclass(frozen=True)
 class AnyRule(Rule):
+    """Logical OR rule.
+
+    Returns True if at least one nested rule returns True.
+    Short-circuits on first True result.
+    Returns False for empty rules list.
+
+    Attributes:
+        type_name: Always "any"
+        rules: List of rules to evaluate
+    """
     type_name: str
     rules: list[Rule]
 
@@ -123,7 +185,26 @@ class AnyRule(Rule):
 
 @dataclass(frozen=True)
 class TruthyPathRule(Rule):
-    """Treats a value at path as a boolean."""
+    """Evaluates truthiness of a value at path.
+
+    Truthiness rules:
+        - None: False
+        - bool: as-is
+        - numbers: False if 0, otherwise True
+        - strings: False if empty or one of (case-insensitive):
+          "0", "false", "no", "off", otherwise True
+        - other types: True
+
+    Missing data behavior:
+        - If path resolves to None:
+            - strict="raise": raises RuleEvaluationError
+            - strict="warn": returns False, increments 'missing' metric
+            - strict="off": returns False silently
+
+    Attributes:
+        type_name: Always "truthy"
+        path: Dot-separated path to value
+    """
 
     type_name: str
     path: str
@@ -140,7 +221,20 @@ class TruthyPathRule(Rule):
 
 
 def parse_compare_rule(spec: dict[str, Any]) -> CompareRule:
-    """Parse a compare rule spec."""
+    """Parse a compare rule specification.
+
+    Args:
+        spec: Rule spec dict with required keys:
+            - 'path': non-empty string
+            - 'op': non-empty string
+            - 'value': any (optional, depends on operator)
+
+    Returns:
+        CompareRule instance
+
+    Raises:
+        RuleSyntaxError: If 'path' or 'op' is missing or invalid
+    """
 
     path = spec.get("path")
     op = spec.get("op")
