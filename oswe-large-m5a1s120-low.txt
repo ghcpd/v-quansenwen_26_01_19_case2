@@ -1,0 +1,310 @@
+User: Role:
+You are a contributor asked to improve API documentation
+for an existing open-source project.
+
+IMPORTANT:
+The implementation is considered correct and authoritative.
+Your task is to improve DOCUMENTATION ONLY.
+
+--------------------------------------------------------------------------------
+YOUR TASK
+--------------------------------------------------------------------------------
+
+1. Review all public-facing APIs:
+- Functions
+- Classes
+- Methods
+- Public configuration interfaces
+
+2. Identify documentation gaps:
+- Missing docstrings or API entries
+- Undocumented parameters or return values
+- Missing constraints, error cases, or side effects
+- Incomplete or misleading descriptions
+
+3. Complete documentation so that:
+- Every public API is documented
+- Parameters, return values, and exceptions are clearly described
+- Behavior matches actual implementation exactly
+- No speculative intent is introduced
+
+--------------------------------------------------------------------------------
+STRICT RULES
+--------------------------------------------------------------------------------
+
+- DO NOT change code behavior
+- DO NOT modify logic or signatures
+- DO NOT invent undocumented guarantees
+- If behavior is unclear, document it as “implementation-defined”
+- Do NOT remove existing APIs to simplify docs
+
+--------------------------------------------------------------------------------
+OUTPUT REQUIREMENTS
+--------------------------------------------------------------------------------
+
+You MUST provide:
+
+1. A list of all API documentation gaps you identified
+   - File
+   - Function / class / method
+   - Missing or unclear aspects
+
+2. Updated versions of:
+   - API documentation files
+   - Docstrings or reference docs you modified
+
+3. A short explanation describing:
+   - How you verified documentation against implementation
+   - Any ambiguities you intentionally left explicit
+
+--------------------------------------------------------------------------------
+EVALUATION CRITERIA (IMPLICIT)
+--------------------------------------------------------------------------------
+
+You will be evaluated on:
+- Coverage of missing API documentation
+- Accuracy and completeness of descriptions
+- Fidelity to implementation
+- Avoidance of speculative behavior
+- Professional API clarity
+
+IMPORTANT:
+Treat this as a disciplined documentation contribution,
+not a redesign or refactor.
+
+
+GitHub Copilot: Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/oswe-large-m5a1s120-low/API.md)
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/oswe-large-m5a1s120-low/README.md)
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/oswe-large-m5a1s120-low/src/policyeval/__init__.py)
+
+Now let me read all the source files to understand the complete implementation: 
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/oswe-large-m5a1s120-low/src/policyeval/engine.py)
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/oswe-large-m5a1s120-low/src/policyeval/loader.py)
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/oswe-large-m5a1s120-low/src/policyeval/registry.py)
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/oswe-large-m5a1s120-low/src/policyeval/rules.py)
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/oswe-large-m5a1s120-low/src/policyeval/errors.py)
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/oswe-large-m5a1s120-low/src/policyeval/context.py)
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/oswe-large-m5a1s120-low/src/policyeval/utils.py)
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/oswe-large-m5a1s120-low/src/policyeval/cli.py)
+
+Let me also check the test files and the example policy to understand the expected behavior better: 
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/oswe-large-m5a1s120-low/tests/test_engine.py)
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/oswe-large-m5a1s120-low/tests/test_loader.py)
+
+Read [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/oswe-large-m5a1s120-low/examples/policy.json)
+
+Now I have a complete understanding of the codebase. Let me identify all the API documentation gaps and then make the improvements.
+
+## API Documentation Gaps Identified
+
+| File | Function/Class/Method | Missing/Unclear Aspects |
+|------|----------------------|-------------------------|
+| API.md | Overall | Missing `Decision`, `Policy`, `PolicySpec` classes; incomplete error documentation; missing `get_default_registry()` function; incomplete parameter types; missing `explain` method |
+| API.md | `load_policy` | Missing `base_dir` parameter documentation, missing return type details, missing exceptions |
+| API.md | `PolicyEngine.__init__` | Constructor not documented; `strict` parameter undocumented |
+| API.md | `PolicyEngine.evaluate` | Return type is `Decision` not boolean; `strict` type is string not boolean; missing exception info |
+| API.md | `PolicyEngine.compile` | Method not documented |
+| API.md | `PolicyEngine.explain` | Method not documented |
+| API.md | `RuleRegistry` | Missing `unregister`, `create` methods; factory signature undocumented |
+| API.md | Rules | Missing `all`, `any`, `not`, `truthy` rule types; missing `contains`, `exists` operators |
+| API.md | Errors | No error class documentation |
+| API.md | `EvaluationContext` | Completely undocumented |
+| errors.py | All classes | Missing docstrings |
+| loader.py | `PolicySpec` | Missing docstring |
+| registry.py | All methods | Missing docstrings for `register`, `unregister`, `create` |
+| registry.py | `get_default_registry` | Missing docstring |
+| registry.py | `register_builtin_rules` | Missing docstring |
+| rules.py | `AllRule`, `AnyRule`, `NotRule` | Missing docstrings |
+| engine.py | `Decision` | Missing docstring |
+| engine.py | `PolicyEngine.compile` | Missing docstring |
+| engine.py | `PolicyEngine.evaluate` | Missing docstring |
+| engine.py | `PolicyEngine.explain` | Missing docstring |
+| context.py | `bump`, `get_var`, `set_var` | Missing docstrings |
+| utils.py | All functions | Missing docstrings |
+| cli.py | All functions | Missing docstrings |
+
+Now let me update all the documentation: 
+
+Replacing 63 lines with 777 lines in [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/oswe-large-m5a1s120-low/API.md)
+
+Let me check the exact content of the file: 
+
+Ran terminal command:  type "c:\Users\v-quansenwen\work\Document\API-0119\oswe-large-m5a1s120-low\API.md"
+
+Ran terminal command:  cat "/mnt/c/Users/v-quansenwen/work/Document/API-0119/oswe-large-m5a1s120-low/API.md"
+
+Let me try a different approach and create a fresh version of the API.md file: 
+
+Replacing 60 lines with 774 lines in [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/oswe-large-m5a1s120-low/API.md)
+
+
+```
+
+```
+Now let me update the docstrings in the source files. I'll make multiple replacements for the Python files: 
+
+Replacing 25 lines with 97 lines in [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/oswe-large-m5a1s120-low/src/policyeval/errors.py), [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/oswe-large-m5a1s120-low/src/policyeval/loader.py)
+
+
+```
+
+```
+
+```
+
+```
+
+
+Replacing 15 lines with 85 lines in [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/oswe-large-m5a1s120-low/src/policyeval/registry.py)
+
+
+```
+
+```
+
+
+Replacing 27 lines with 133 lines in [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/oswe-large-m5a1s120-low/src/policyeval/engine.py)
+
+
+```
+
+```
+
+
+Replacing 29 lines with 133 lines in [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/oswe-large-m5a1s120-low/src/policyeval/rules.py)
+
+
+```
+
+```
+
+
+Replacing 31 lines with 133 lines in [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/oswe-large-m5a1s120-low/src/policyeval/context.py), [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/oswe-large-m5a1s120-low/src/policyeval/utils.py)
+
+
+```
+
+```
+
+```
+
+```
+
+
+Replacing 5 lines with 40 lines in [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/oswe-large-m5a1s120-low/src/policyeval/cli.py)
+
+
+```
+
+```
+Now let me verify the changes and check for any errors: 
+
+Checked , no problems found
+
+Let me also update the __init__.py module docstring to be more comprehensive: 
+
+Replacing 6 lines with 42 lines in [](file:///c%3A/Users/v-quansenwen/work/Document/API-0119/oswe-large-m5a1s120-low/src/policyeval/__init__.py)
+
+
+```
+
+```
+Now let me verify the final state of all the modified files: 
+
+Checked workspace, no problems found
+
+All documentation has been updated. Here's a summary:
+
+---
+
+## Summary of Documentation Improvements
+
+### 1. API Documentation Gaps Identified
+
+| File | Function/Class/Method | Missing/Unclear Aspects |
+|------|----------------------|-------------------------|
+| API.md | Overall structure | Missing Table of Contents, incomplete exports list, no exception documentation |
+| API.md | `load_policy` | Missing `base_dir` description, return type, exceptions |
+| API.md | `PolicyEngine.__init__` | Not documented at all |
+| API.md | `PolicyEngine.evaluate` | Return type incorrectly stated as `bool` (actual: `Decision`); `strict` type wrong |
+| API.md | `PolicyEngine.compile` | Missing entirely |
+| API.md | `PolicyEngine.explain` | Missing entirely |
+| API.md | `Decision`, `Policy`, `PolicySpec` | Classes not documented |
+| API.md | `RuleRegistry` | Missing `unregister`, `create` methods; factory signature unclear |
+| API.md | Rules | Missing `all`, `any`, `not`, `truthy` types; missing `contains`, `exists` operators |
+| API.md | `EvaluationContext` | Completely undocumented |
+| API.md | Exceptions | No documentation |
+| API.md | `get_default_registry` | Not documented |
+| API.md | Utility functions | Not documented |
+| API.md | CLI | Incomplete (no exit codes, no examples) |
+| errors.py | All classes | Minimal docstrings without causes |
+| loader.py | `PolicySpec` | Missing docstring |
+| loader.py | `load_policy` | Incomplete docstring (no Args/Returns/Raises) |
+| registry.py | All methods | Missing docstrings |
+| registry.py | `get_default_registry`, `register_builtin_rules` | Missing docstrings |
+| rules.py | `Rule` base class | Minimal docstring |
+| rules.py | `NotRule`, `AllRule`, `AnyRule` | Missing docstrings |
+| rules.py | `TruthyPathRule` | Incomplete docstring |
+| engine.py | `Decision` | Missing docstring |
+| engine.py | `PolicyEngine.__init__`, `compile`, `evaluate`, `explain` | Missing docstrings |
+| context.py | `get_var`, `set_var`, `bump` | Missing docstrings |
+| utils.py | All functions | Missing docstrings |
+| cli.py | Module and functions | Missing docstrings |
+| __init__.py | Module docstring | Too brief, missing examples |
+
+### 2. Documentation Updates Made
+
+**API.md** - Complete rewrite with:
+- Full Table of Contents
+- Complete exports list with all public symbols
+- Comprehensive `load_policy` documentation (parameters, return, raises, examples)
+- Full `PolicyEngine` documentation (constructor, `compile`, `evaluate`, `explain`)
+- Decision logic table (effect × matched → allowed)
+- `PolicySpec`, `Policy`, `Decision` dataclass documentation
+- Complete `RuleRegistry` documentation (all methods, factory signature)
+- `get_default_registry()` documentation
+- All 5 built-in rule types documented (`compare`, `all`, `any`, `not`, `truthy`)
+- All comparison operators including `contains` and `exists`
+- `EvaluationContext` with all attributes and methods
+- All exception classes with common causes
+- Utility functions (`deep_get`, `normalize_key`, `is_truthy`)
+- CLI documentation with arguments and exit codes
+
+**Source files updated with comprehensive docstrings:**
+- errors.py - All exception classes
+- loader.py - `PolicySpec`, `load_policy`
+- registry.py - `RuleRegistry` and all methods, `get_default_registry`, `register_builtin_rules`
+- engine.py - `Decision`, `PolicyEngine` class and all methods
+- rules.py - `Rule`, `CompareRule`, `NotRule`, `AllRule`, `AnyRule`, `TruthyPathRule`, `parse_compare_rule`
+- context.py - `EvaluationContext` and all methods
+- utils.py - `deep_get`, `normalize_key`, `is_truthy`
+- cli.py - Module docstring, `main`, `_cmd_evaluate`
+- __init__.py - Comprehensive module docstring
+
+### 3. Verification Against Implementation
+
+Documentation was verified by:
+1. Reading all source files to understand actual behavior
+2. Cross-referencing test files to confirm expected behavior
+3. Documenting exact parameter types, return types, and exceptions from code
+4. Including all operators found in `CompareRule.evaluate()` (not just those in original docs)
+5. Documenting default values and behavior modes exactly as implemented
+
+**Ambiguities left explicit:**
+- The `strict` parameter accepts any string but only `"off"`, `"warn"`, and `"raise"` have defined behavior; other values are implementation-defined
+- Empty `rules` lists in `all` → True, in `any` → False (documented as observed)
+- Key normalization behavior documented exactly as implemented in `normalize_key()`
+
+Made changes.

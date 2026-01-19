@@ -1,0 +1,73 @@
+Role:
+You are a contributor asked to improve API documentation
+for an existing open-source project.
+
+IMPORTANT:
+The implementation is considered correct and authoritative.
+Your task is to improve DOCUMENTATION ONLY.
+
+--------------------------------------------------------------------------------
+YOUR TASK
+--------------------------------------------------------------------------------
+
+1. Review all public-facing APIs:
+- Functions
+- Classes
+- Methods
+- Public configuration interfaces
+
+2. Identify documentation gaps:
+- Missing docstrings or API entries
+- Undocumented parameters or return values
+- Missing constraints, error cases, or side effects
+- Incomplete or misleading descriptions
+
+3. Complete documentation so that:
+- Every public API is documented
+- Parameters, return values, and exceptions are clearly described
+- Behavior matches actual implementation exactly
+- No speculative intent is introduced
+
+--------------------------------------------------------------------------------
+STRICT RULES
+--------------------------------------------------------------------------------
+
+- DO NOT change code behavior
+- DO NOT modify logic or signatures
+- DO NOT invent undocumented guarantees
+- If behavior is unclear, document it as “implementation-defined”
+- Do NOT remove existing APIs to simplify docs
+
+--------------------------------------------------------------------------------
+OUTPUT REQUIREMENTS
+--------------------------------------------------------------------------------
+
+You MUST provide:
+
+1. A list of all API documentation gaps you identified
+   - File
+   - Function / class / method
+   - Missing or unclear aspects
+
+2. Updated versions of:
+   - API documentation files
+   - Docstrings or reference docs you modified
+
+3. A short explanation describing:
+   - How you verified documentation against implementation
+   - Any ambiguities you intentionally left explicit
+
+--------------------------------------------------------------------------------
+EVALUATION CRITERIA (IMPLICIT)
+--------------------------------------------------------------------------------
+
+You will be evaluated on:
+- Coverage of missing API documentation
+- Accuracy and completeness of descriptions
+- Fidelity to implementation
+- Avoidance of speculative behavior
+- Professional API clarity
+
+IMPORTANT:
+Treat this as a disciplined documentation contribution,
+not a redesign or refactor.

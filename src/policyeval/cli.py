@@ -1,3 +1,19 @@
+"""Command-line interface for PolicyEval.
+
+This module provides the CLI for evaluating policies from the command line.
+
+Usage:
+    python -m policyeval evaluate --policy <path-or-json> --input <json> [options]
+
+Commands:
+    evaluate    Evaluate a policy against a JSON input payload.
+
+Exit codes:
+    0: Policy allowed the action
+    2: Unknown command
+    3: Policy denied the action
+"""
+
 from __future__ import annotations
 
 import argparse
@@ -9,6 +25,14 @@ from .loader import load_policy
 
 
 def _cmd_evaluate(argv: list[str]) -> int:
+    """Execute the 'evaluate' command.
+
+    Args:
+        argv: Command-line arguments after 'evaluate'.
+
+    Returns:
+        int: Exit code (0 if allowed, 3 if denied).
+    """
     p = argparse.ArgumentParser(prog="policyeval evaluate")
     p.add_argument("--policy", required=True, help="Policy JSON file path or inline JSON")
     p.add_argument("--input", required=True, help="Inline JSON payload")
@@ -30,6 +54,17 @@ def _cmd_evaluate(argv: list[str]) -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
+    """Main entry point for the policyeval CLI.
+
+    Args:
+        argv: Command-line arguments. If None, uses sys.argv[1:].
+
+    Returns:
+        int: Exit code.
+            - 0: Success (policy allowed or help shown)
+            - 2: Unknown command
+            - 3: Policy denied the action
+    """
     argv = list(sys.argv[1:] if argv is None else argv)
     if not argv or argv[0] in {"-h", "--help"}:
         print("Usage: policyeval <command> [args]\n\nCommands:\n  evaluate")

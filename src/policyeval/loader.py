@@ -11,13 +11,54 @@ from .registry import RuleRegistry, get_default_registry
 
 @dataclass(frozen=True)
 class PolicySpec:
+    """A loaded but not yet compiled policy specification.
+
+    PolicySpec is a frozen dataclass containing the raw policy definition
+    as loaded from JSON. It is returned by load_policy() and can be passed
+    to PolicyEngine.evaluate() or PolicyEngine.compile().
+
+    Attributes:
+        name: The policy name. Must be a non-empty string.
+        effect: The policy effect, either 'allow' or 'deny'.
+        rules: List of rule specifications as dictionaries.
+            Each dict must have a 'type' key and type-specific fields.
+    """
+
     name: str
     effect: str
     rules: list[dict[str, Any]]
 
 
 def load_policy(source: Any, registry: RuleRegistry | None = None, *, base_dir: str | None = None) -> PolicySpec:
-    """Load a policy from a dict, JSON string, or JSON file path."""
+    """Load and validate a policy from a dict, JSON string, or file path.
+
+    This function parses and validates a policy definition, ensuring all
+    required fields are present and rule specifications are valid.
+
+    Args:
+        source: The policy source. Can be:
+            - A dict containing the policy definition
+            - A JSON string (detected if it starts with '{')
+            - A file path (str or pathlib.Path) to a JSON file
+        registry: Optional RuleRegistry for validating rule types.
+            If None, uses get_default_registry().
+        base_dir: Optional base directory for resolving relative file paths.
+            Only used when source is a relative path string.
+
+    Returns:
+        PolicySpec: A frozen dataclass containing the policy's name,
+            effect, and rules.
+
+    Raises:
+        PolicyLoadError: If the source cannot be parsed, the JSON is invalid,
+            the file cannot be read, or required fields are missing/invalid.
+        RuleSyntaxError: If any rule specification is syntactically invalid.
+
+    Example:
+        >>> policy = load_policy({"name": "test", "effect": "allow", "rules": []})
+        >>> policy = load_policy("path/to/policy.json")
+        >>> policy = load_policy('{"name": "inline", "effect": "deny", "rules": []}')
+    """
 
     registry = registry or get_default_registry()
     try:
